@@ -1,0 +1,21 @@
+# versino of docker compose syntax. 
+version: "3.9"
+
+# we want to build 
+services:
+# name of our service
+  app:
+  # build our docker file in current dir
+    build:
+      context: .
+      args:
+        - DEV=true
+        # how we can access network
+    ports:
+      - "8000:8000"
+    volumes:
+    # make update in real time in sync in container 
+      - ./app:/app
+    # specify cmd or else it will use default
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
