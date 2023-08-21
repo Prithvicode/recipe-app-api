@@ -1,21 +1,22 @@
 """
 Sample tests
 """
-
-
-from django.test import SimpleTestCase  
-#no db integration needed
+from django.test import SimpleTestCase
 
 from app import calc
 
+
 class CalcTests(SimpleTestCase):
-    """Test the calc module"""
+    """Test the calc module."""
 
-    def test_add_numbers(self): # start with test
-        """Test adding numbers together"""
-        res = calc.add(6, 6)
-        self.assertEqual(res, 12)
+    def test_add_numbers(self):
+        """Test adding numbers together."""
+        res = calc.add(5, 6)
 
-    def test_sub_numbers(self):
+        self.assertEqual(res, 11)
+
+    def test_subtract_numbers(self):
+        """Test subtracting numbers."""
         res = calc.subtract(10, 15)
+
         self.assertEqual(res, 5)
