@@ -1,0 +1,57 @@
+# two services:
+# app and database(postgresql)
+# be able to communicate betwenn both:
+# depends on config, for db to start first then app.
+
+# versino of docker compose syntax. 
+version: "3.9"
+
+# we want to build 
+services:
+# name of our service
+  app:
+  # build our docker file in current dir
+    build:
+      context: .
+      args:
+        - DEV=true
+        # how we can access network
+    ports:
+      - "8000:8000"
+    volumes:
+    # make update in real time in sync in container 
+      - ./app:/app
+    # specify cmd or else it will use default
+    command: >
+      sh -c "python manage.py wait_for_db &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=changeme
+    depends_on:
+      - db
+
+  # configure db:
+  # idea is to configure db using docker,
+  # we use postgres image:
+  # somehow its going to be reusable
+  # dont have create data for test again and again
+  # somthing about port not being open
+
+
+  db:
+    image: postgres:13-alpine #light weight version 
+    
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changeme
+
+volumes:
+  dev-db-data:
+

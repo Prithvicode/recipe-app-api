@@ -1,0 +1,23 @@
+# specify files to exclude 
+# docker doesnt need to be concerned with
+
+# Git
+.git
+.gitignore
+
+# Docker
+.docker
+
+# Python
+# py create cache for our local sys 
+# so we specific each subdir for pyacache
+app/__pycache__/
+app/*/__pycache__/
+app/*/*/__pycache__/
+app/*/*/*/__pycache__/
+.env/
+.venv/
+venv/
+
+
+# remove virtual env files 
